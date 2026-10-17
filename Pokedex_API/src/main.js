@@ -32,31 +32,31 @@ const controls = new OrbitControls(camera, cssRenderer.domElement);
 controls.target.set(0, 0, 0);
 controls.update();
 
-const sticker = new CSS3DObject(createPokedexScreen());
-sticker.visible = false;
-scene.add(sticker);
+const screen = new CSS3DObject(createPokedexScreen());
+screen.visible = false;
+scene.add(screen);
 
 new GLTFLoader().load('/Models/pokedex.glb', ({ scene: model }) => {
   scene.add(model);
   model.rotation.y = -Math.PI / 2.3;
   model.updateMatrixWorld(true);
 
-  const tv = model.getObjectByName('Object_6');
-  const box = new THREE.Box3().setFromObject(tv);
+  const loadPokemon = model.getObjectByName('Object_6');
+  const box = new THREE.Box3().setFromObject(loadPokemon);
 
   // Size: the two largest sides are width and height
   const [w, h] = box.getSize(new THREE.Vector3()).toArray().sort((a, b) => b - a);
-  sticker.scale.setScalar(Math.min(w / 280, h / 240));
+  screen.scale.setScalar(Math.min(w / 280, h / 240));
 
   // Position: ray from the camera to the TV, facing opposite the hit normal
   const dir = box.getCenter(new THREE.Vector3()).sub(camera.position).normalize();
-  const hit = new THREE.Raycaster(camera.position, dir).intersectObject(tv, true)[0];
+  const hit = new THREE.Raycaster(camera.position, dir).intersectObject(loadPokemon, true)[0];
   const facing = hit.face.normal.clone().transformDirection(hit.object.matrixWorld).negate();
 
-  sticker.position.copy(hit.point).addScaledVector(facing, 0.01);
-  sticker.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), facing);
-  sticker.rotateY(Math.PI);
-  sticker.visible = true;
+  screen.position.copy(hit.point).addScaledVector(facing, 0.01);
+  screen.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), facing);
+  screen.rotateY(Math.PI);
+  screen.visible = true;
 });
 
 function animate() {
