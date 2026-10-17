@@ -11,7 +11,7 @@ const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x1a1a2e);
 
 const camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
-camera.position.set(0, 0, 1.75);
+camera.position.set(0, 0, 3);
 
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 renderer.setSize(innerWidth, innerHeight);
@@ -97,4 +97,4 @@ addEventListener('resize', () => {
 
 controls.minAzimuthAngle = -Math.PI / 3;
 controls.maxAzimuthAngle = Math.PI / 3;
-controls.enableZoom = false;
+controls.maxDistance = 5;
