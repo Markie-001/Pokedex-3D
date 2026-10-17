@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { CSS3DRenderer, CSS3DObject } from 'three/addons/renderers/CSS3DRenderer.js';
-import { createPokedexScreen } from './pokedex.js';
+import { createPokedexScreen, createStatScreen } from './pokedex.js';
 
 const canvas = document.querySelector('#exp-canvas');
 
@@ -36,6 +36,10 @@ const screen = new CSS3DObject(createPokedexScreen());
 screen.visible = false;
 scene.add(screen);
 
+const statScreen = new CSS3DObject(createStatScreen());
+statScreen.visible = false;
+scene.add(statScreen);
+
 new GLTFLoader().load('/Models/pokedex.glb', ({ scene: model }) => {
   scene.add(model);
   model.rotation.y = -Math.PI / 2.3;
@@ -57,6 +61,23 @@ new GLTFLoader().load('/Models/pokedex.glb', ({ scene: model }) => {
   screen.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), facing);
   screen.rotateY(Math.PI);
   screen.visible = true;
+
+  // Stat screen for the Pokemon
+  const loadStaat = model.getObjectByName('Object_7');
+  const statBox = new THREE.Box3().setFromObject(loadStaat);
+
+  const [w_statScreen, h_statScreen] = statBox.getSize(new THREE.Vector3()).toArray().sort((a, b) => b - a);
+  statScreen.scale.setScalar(Math.min(w_statScreen / 280, h_statScreen / 240));
+
+  // Position: ray from the camera to the TV, facing opposite the hit normal
+  const dir_statSceen = statBox.getCenter(new THREE.Vector3()).sub(camera.position).normalize();
+  const hit_statScreen = new THREE.Raycaster(camera.position, dir_statSceen).intersectObject(loadStaat, true)[0];
+  const facing_statScreen = hit_statScreen.face.normal.clone().transformDirection(hit_statScreen.object.matrixWorld).negate();
+
+  statScreen.position.copy(hit_statScreen.point).addScaledVector(facing_statScreen, 0.01);
+  statScreen.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), facing_statScreen);
+  statScreen.rotateY(Math.PI);
+  statScreen.visible = true;
 });
 
 function animate() {
