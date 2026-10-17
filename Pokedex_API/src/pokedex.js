@@ -43,7 +43,7 @@ export function createPokedexScreen() {
 // Stats
 export function createStatScreen() {
   const el = document.createElement('div');
-  el.className = 'screen';
+  el.className = 'screen statscreen';
   el.innerHTML = `<div class="info">Loading...</div>`;
   const info = el.querySelector('.info');
 

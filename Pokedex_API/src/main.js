@@ -11,7 +11,7 @@ const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x1a1a2e);
 
 const camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
-camera.position.set(0, 0, 2.2);
+camera.position.set(0, 0, 1.75);
 
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 renderer.setSize(innerWidth, innerHeight);
@@ -67,7 +67,7 @@ new GLTFLoader().load('/Models/pokedex.glb', ({ scene: model }) => {
   const statBox = new THREE.Box3().setFromObject(loadStaat);
 
   const [w_statScreen, h_statScreen] = statBox.getSize(new THREE.Vector3()).toArray().sort((a, b) => b - a);
-  statScreen.scale.setScalar(Math.min(w_statScreen / 200, h_statScreen / 250));
+  statScreen.scale.setScalar(Math.min(w_statScreen / 300, h_statScreen / 250));
 
   const dir_statSceen = statBox.getCenter(new THREE.Vector3()).sub(camera.position).normalize();
   const hit_statScreen = new THREE.Raycaster(camera.position, dir_statSceen).intersectObject(loadStaat, true)[0];
@@ -76,7 +76,7 @@ new GLTFLoader().load('/Models/pokedex.glb', ({ scene: model }) => {
   statScreen.position.copy(hit_statScreen.point).addScaledVector(facing_statScreen, 0.01);
   statScreen.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), facing_statScreen);
   statScreen.rotateY(Math.PI);
-  statScreen.rotateZ(-0.063);
+  statScreen.rotateZ(-0.070);
   statScreen.visible = true;
 });
 
