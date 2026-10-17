@@ -32,10 +32,12 @@ const controls = new OrbitControls(camera, cssRenderer.domElement);
 controls.target.set(0, 0, 0);
 controls.update();
 
+// Pokemon and name
 const screen = new CSS3DObject(createPokedexScreen());
 screen.visible = false;
 scene.add(screen);
 
+// Stat
 const statScreen = new CSS3DObject(createStatScreen());
 statScreen.visible = false;
 scene.add(statScreen);
@@ -48,11 +50,9 @@ new GLTFLoader().load('/Models/pokedex.glb', ({ scene: model }) => {
   const loadPokemon = model.getObjectByName('Object_6');
   const box = new THREE.Box3().setFromObject(loadPokemon);
 
-  // Size: the two largest sides are width and height
   const [w, h] = box.getSize(new THREE.Vector3()).toArray().sort((a, b) => b - a);
   screen.scale.setScalar(Math.min(w / 280, h / 240));
 
-  // Position: ray from the camera to the TV, facing opposite the hit normal
   const dir = box.getCenter(new THREE.Vector3()).sub(camera.position).normalize();
   const hit = new THREE.Raycaster(camera.position, dir).intersectObject(loadPokemon, true)[0];
   const facing = hit.face.normal.clone().transformDirection(hit.object.matrixWorld).negate();
@@ -67,9 +67,8 @@ new GLTFLoader().load('/Models/pokedex.glb', ({ scene: model }) => {
   const statBox = new THREE.Box3().setFromObject(loadStaat);
 
   const [w_statScreen, h_statScreen] = statBox.getSize(new THREE.Vector3()).toArray().sort((a, b) => b - a);
-  statScreen.scale.setScalar(Math.min(w_statScreen / 280, h_statScreen / 240));
+  statScreen.scale.setScalar(Math.min(w_statScreen / 200, h_statScreen / 250));
 
-  // Position: ray from the camera to the TV, facing opposite the hit normal
   const dir_statSceen = statBox.getCenter(new THREE.Vector3()).sub(camera.position).normalize();
   const hit_statScreen = new THREE.Raycaster(camera.position, dir_statSceen).intersectObject(loadStaat, true)[0];
   const facing_statScreen = hit_statScreen.face.normal.clone().transformDirection(hit_statScreen.object.matrixWorld).negate();
@@ -77,6 +76,7 @@ new GLTFLoader().load('/Models/pokedex.glb', ({ scene: model }) => {
   statScreen.position.copy(hit_statScreen.point).addScaledVector(facing_statScreen, 0.01);
   statScreen.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), facing_statScreen);
   statScreen.rotateY(Math.PI);
+  statScreen.rotateZ(-0.063);
   statScreen.visible = true;
 });
 
