@@ -46,8 +46,13 @@ body {
 }
 
 .statscreen p {
-  font-size: 24px;
+  font-size: 35px;
   margin: 0;
+}
+
+#stats {
+  width: 440px;
+  height: 280px;
 }
 
 #start {

@@ -64,7 +64,7 @@ new GLTFLoader().load('/Models/pokedex.glb', function (gltf) {
   model.updateMatrixWorld(true);
 
   stick(new CSS3DObject(createPokedexScreen()), model.getObjectByName('Object_6'), 280, 240, 0);
-  stick(new CSS3DObject(createStatScreen()), model.getObjectByName('Object_7'), 330, 270, -0.073);
+  stick(new CSS3DObject(createStatScreen()), model.getObjectByName('Object_7'), 330, 270, -0.06);
   stick(new CSS3DObject(pokemonDescription()), model.getObjectByName('Object_17'), 500, 250, 0, 0.15, 0.33);
 
   addEventListener('click', function (e) {
