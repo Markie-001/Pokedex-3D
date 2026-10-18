@@ -9,7 +9,7 @@ const canvas = document.querySelector('#exp-canvas');
 
 // Scene
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x1a1a2e);
+scene.background = new THREE.Color(0xffffff);
 // Camera
 const camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
 camera.position.set(0, 0, 3);
@@ -18,8 +18,8 @@ const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 renderer.setSize(innerWidth, innerHeight);
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 // Lights
-scene.add(new THREE.AmbientLight(0xffffff, 1));
-const sun = new THREE.DirectionalLight(0xffffff, 2);
+scene.add(new THREE.AmbientLight(0xffffff, 2.5));
+const sun = new THREE.DirectionalLight(0xffffff, 5);
 sun.position.set(5, 5, 5);
 scene.add(sun);
 
