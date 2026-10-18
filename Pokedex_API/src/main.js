@@ -98,3 +98,22 @@ addEventListener('resize', () => {
 controls.minAzimuthAngle = -Math.PI / 3;
 controls.maxAzimuthAngle = Math.PI / 3;
 controls.maxDistance = 5;
+
+const listener = new THREE.AudioListener();
+camera.add(listener);
+
+const audioLoader = new THREE.AudioLoader();
+const backgroundMusic = new THREE.Audio( listener );
+
+audioLoader.load('../public/Models/assets/littleroot_town.mp3', function(buffer) {
+  backgroundMusic.setBuffer( buffer );
+  backgroundMusic.getLoop( true );
+  backgroundMusic.setVolume( 0.4 );
+  backgroundMusic.play();
+});
+
+document.getElementById('start').addEventListener('click', function () {
+  this.remove();
+  listener.context.resume();
+  backgroundMusic.play();
+});
