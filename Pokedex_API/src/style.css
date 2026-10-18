@@ -11,6 +11,10 @@ body {
   height: 100%;
 }
 
+#pokemon {
+  background: lightgreen;
+}
+
 .screen {
   width: 280px;
   height: 240px;
@@ -90,6 +94,7 @@ input::placeholder {
 }
 
 #description {
-  width: 250px;
+  width: 245px;
   height: 86px;
+  background: darkblue;
 }
