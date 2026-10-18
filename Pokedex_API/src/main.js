@@ -16,14 +16,14 @@ camera.position.set(0, 0, 3);
 // Renderer
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 renderer.setSize(innerWidth, innerHeight);
-renderer.setPixelRatio(Math.min(devicePixelRatio, 2)); // sharp, but not too heavy on retina screens
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 // Lights
 scene.add(new THREE.AmbientLight(0xffffff, 1));
 const sun = new THREE.DirectionalLight(0xffffff, 2);
 sun.position.set(5, 5, 5);
 scene.add(sun);
 
-// HTML layer
+// HTML
 const cssRenderer = new CSS3DRenderer();
 cssRenderer.setSize(innerWidth, innerHeight);
 cssRenderer.domElement.style.position = 'fixed';
@@ -63,6 +63,14 @@ new GLTFLoader().load('/Models/pokedex.glb', function (gltf) {
 
   stick(new CSS3DObject(createPokedexScreen()), model.getObjectByName('Object_6'), 280, 240, 0);
   stick(new CSS3DObject(createStatScreen()), model.getObjectByName('Object_7'), 330, 270, -0.073);
+
+  addEventListener('click', function (e) {
+  const mouse = new THREE.Vector2(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1);
+  const ray = new THREE.Raycaster();
+  ray.setFromCamera(mouse, camera);
+  console.log(ray.intersectObject(model, true)[0]?.object.name);
+});
+ 
 });
 
 // Draw everything again and again
@@ -82,7 +90,7 @@ addEventListener('resize', function () {
   cssRenderer.setSize(innerWidth, innerHeight);
 });
 
-// Background music (browsers only allow sound after a click)
+// Background music
 const listener = new THREE.AudioListener();
 camera.add(listener);
 const backgroundMusic = new THREE.Audio(listener);
