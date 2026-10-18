@@ -66,14 +66,6 @@ new GLTFLoader().load('/Models/pokedex.glb', function (gltf) {
   stick(new CSS3DObject(createPokedexScreen()), model.getObjectByName('Object_6'), 280, 240, 0);
   stick(new CSS3DObject(createStatScreen()), model.getObjectByName('Object_7'), 330, 270, -0.06);
   stick(new CSS3DObject(pokemonDescription()), model.getObjectByName('Object_17'), 500, 250, 0, 0.15, 0.33);
-
-  addEventListener('click', function (e) {
-  const mouse = new THREE.Vector2(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1);
-  const ray = new THREE.Raycaster();
-  ray.setFromCamera(mouse, camera);
-  console.log(ray.intersectObject(model, true)[0]?.object.name);
-});
- 
 });
 
 // Draw everything again and again
