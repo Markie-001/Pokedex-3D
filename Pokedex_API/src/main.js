@@ -7,15 +7,16 @@ import { createPokedexScreen, createStatScreen } from './pokedex.js';
 
 const canvas = document.querySelector('#exp-canvas');
 
+// Scene
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x1a1a2e);
-
+// Camera
 const camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
 camera.position.set(0, 0, 3);
-
+// Renderer
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 renderer.setSize(innerWidth, innerHeight);
-
+// Lights
 scene.add(new THREE.AmbientLight(0xffffff, 1));
 const sun = new THREE.DirectionalLight(0xffffff, 2);
 sun.position.set(5, 5, 5);
@@ -27,7 +28,7 @@ cssRenderer.domElement.style.position = 'fixed';
 cssRenderer.domElement.style.top = '0';
 cssRenderer.domElement.style.left = '0';
 document.body.appendChild(cssRenderer.domElement);
-
+// Orbit controls
 const controls = new OrbitControls(camera, cssRenderer.domElement);
 controls.target.set(0, 0, 0);
 controls.update();
@@ -67,7 +68,7 @@ new GLTFLoader().load('/Models/pokedex.glb', ({ scene: model }) => {
   const statBox = new THREE.Box3().setFromObject(loadStaat);
 
   const [w_statScreen, h_statScreen] = statBox.getSize(new THREE.Vector3()).toArray().sort((a, b) => b - a);
-  statScreen.scale.setScalar(Math.min(w_statScreen / 300, h_statScreen / 250));
+  statScreen.scale.setScalar(Math.min(w_statScreen / 330, h_statScreen / 270));
 
   const dir_statSceen = statBox.getCenter(new THREE.Vector3()).sub(camera.position).normalize();
   const hit_statScreen = new THREE.Raycaster(camera.position, dir_statSceen).intersectObject(loadStaat, true)[0];
@@ -76,7 +77,7 @@ new GLTFLoader().load('/Models/pokedex.glb', ({ scene: model }) => {
   statScreen.position.copy(hit_statScreen.point).addScaledVector(facing_statScreen, 0.01);
   statScreen.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), facing_statScreen);
   statScreen.rotateY(Math.PI);
-  statScreen.rotateZ(-0.070);
+  statScreen.rotateZ(-0.073);
   statScreen.visible = true;
 });
 
@@ -99,6 +100,7 @@ controls.minAzimuthAngle = -Math.PI / 3;
 controls.maxAzimuthAngle = Math.PI / 3;
 controls.maxDistance = 5;
 
+// Background music
 const listener = new THREE.AudioListener();
 camera.add(listener);
 
@@ -107,7 +109,7 @@ const backgroundMusic = new THREE.Audio( listener );
 
 audioLoader.load('../public/Models/assets/littleroot_town.mp3', function(buffer) {
   backgroundMusic.setBuffer( buffer );
-  backgroundMusic.getLoop( true );
+  backgroundMusic.setLoop( true );
   backgroundMusic.setVolume( 0.4 );
   backgroundMusic.play();
 });
