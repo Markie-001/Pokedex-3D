@@ -93,6 +93,13 @@ input::placeholder {
   cursor: pointer;
 }
 
+#start strong {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: red;
+}
+
 #description {
   width: 245px;
   height: 86px;
