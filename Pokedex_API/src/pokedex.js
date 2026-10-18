@@ -22,3 +22,7 @@ export function createPokedexScreen() {
 export function createStatScreen() {
   return document.getElementById('stats');
 }
+
+export function pokemonDescription() {
+  return document.getElementById('description');
+}

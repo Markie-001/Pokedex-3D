@@ -62,3 +62,8 @@ body {
   font-size: 50px;
   cursor: pointer;
 }
+
+#description {
+  width: 250px;
+  height: 86px;
+}
