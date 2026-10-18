@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { CSS3DRenderer, CSS3DObject } from 'three/addons/renderers/CSS3DRenderer.js';
-import { createPokedexScreen, createStatScreen } from './pokedex.js';
+import { createPokedexScreen, createStatScreen, pokemonDescription } from './pokedex.js';
 
 const canvas = document.querySelector('#exp-canvas');
 
@@ -38,7 +38,7 @@ controls.maxAzimuthAngle = Math.PI / 3;
 controls.maxDistance = 5;
 
 // Sticks an HTML screen onto a part of the model
-function stick(sticker, part, width, height, tilt) {
+function stick(sticker, part, width, height, tilt, moveX = 0, moveY = 0) {
   const box = new THREE.Box3().setFromObject(part);
   const size = box.getSize(new THREE.Vector3()).toArray().sort((a, b) => b - a);
   sticker.scale.setScalar(Math.min(size[0] / width, size[1] / height));
@@ -51,6 +51,8 @@ function stick(sticker, part, width, height, tilt) {
   sticker.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), facing);
   sticker.rotateY(Math.PI);
   sticker.rotateZ(tilt);
+  sticker.translateX(moveX);
+  sticker.translateY(moveY);
   scene.add(sticker);
 }
 
@@ -63,6 +65,7 @@ new GLTFLoader().load('/Models/pokedex.glb', function (gltf) {
 
   stick(new CSS3DObject(createPokedexScreen()), model.getObjectByName('Object_6'), 280, 240, 0);
   stick(new CSS3DObject(createStatScreen()), model.getObjectByName('Object_7'), 330, 270, -0.073);
+  stick(new CSS3DObject(pokemonDescription()), model.getObjectByName('Object_17'), 500, 250, 0, 0.15, 0.33);
 
   addEventListener('click', function (e) {
   const mouse = new THREE.Vector2(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1);
