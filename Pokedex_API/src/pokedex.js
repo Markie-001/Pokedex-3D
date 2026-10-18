@@ -1,7 +1,20 @@
+function waitPokemon(x) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(x);
+    }, 2500);
+  });
+}
+
 async function loadPokemon(name) {
   try {
     const response = await fetch('https://pokeapi.co/api/v2/pokemon/' + name);
     const pokemon = await response.json();
+
+    document.getElementById('namePokemon').textContent = 'Searching for Pokemon';
+    document.getElementById('imgPokemon').removeAttribute('src');
+    document.getElementById('statPokemon').innerHTML = '';
+    await waitPokemon(10);
   
     document.getElementById('imgPokemon').src = pokemon.sprites.front_default;
     document.getElementById('namePokemon').textContent = pokemon.name;
