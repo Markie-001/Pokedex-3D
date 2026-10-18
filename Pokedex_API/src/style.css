@@ -36,6 +36,9 @@ body {
   right: 27px;
 }
 
+.search input {
+  font-family: 'Tiny5', sans-serif;
+}
 
 .statscreen .info {
   display: flex;
