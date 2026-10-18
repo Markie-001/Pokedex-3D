@@ -16,70 +16,56 @@ camera.position.set(0, 0, 3);
 // Renderer
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 renderer.setSize(innerWidth, innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2)); // sharp, but not too heavy on retina screens
 // Lights
 scene.add(new THREE.AmbientLight(0xffffff, 1));
 const sun = new THREE.DirectionalLight(0xffffff, 2);
 sun.position.set(5, 5, 5);
 scene.add(sun);
 
+// HTML layer
 const cssRenderer = new CSS3DRenderer();
 cssRenderer.setSize(innerWidth, innerHeight);
 cssRenderer.domElement.style.position = 'fixed';
 cssRenderer.domElement.style.top = '0';
 cssRenderer.domElement.style.left = '0';
 document.body.appendChild(cssRenderer.domElement);
+
 // Orbit controls
 const controls = new OrbitControls(camera, cssRenderer.domElement);
-controls.target.set(0, 0, 0);
-controls.update();
-// Pokemon and name
-const screen = new CSS3DObject(createPokedexScreen());
-screen.visible = false;
-scene.add(screen);
-// Stat
-const statScreen = new CSS3DObject(createStatScreen());
-statScreen.visible = false;
-scene.add(statScreen);
+controls.minAzimuthAngle = -Math.PI / 3;
+controls.maxAzimuthAngle = Math.PI / 3;
+controls.maxDistance = 5;
 
-new GLTFLoader().load('/Models/pokedex.glb', ({ scene: model }) => {
+// Sticks an HTML screen onto a part of the model
+function stick(sticker, part, width, height, tilt) {
+  const box = new THREE.Box3().setFromObject(part);
+  const size = box.getSize(new THREE.Vector3()).toArray().sort((a, b) => b - a);
+  sticker.scale.setScalar(Math.min(size[0] / width, size[1] / height));
+
+  const direction = box.getCenter(new THREE.Vector3()).sub(camera.position).normalize();
+  const hit = new THREE.Raycaster(camera.position, direction).intersectObject(part, true)[0];
+  const facing = hit.face.normal.clone().transformDirection(hit.object.matrixWorld).negate();
+
+  sticker.position.copy(hit.point).addScaledVector(facing, 0.01);
+  sticker.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), facing);
+  sticker.rotateY(Math.PI);
+  sticker.rotateZ(tilt);
+  scene.add(sticker);
+}
+
+// Load the model and stick the screens on it
+new GLTFLoader().load('/Models/pokedex.glb', function (gltf) {
+  const model = gltf.scene;
   scene.add(model);
   model.rotation.y = -Math.PI / 2.3;
   model.updateMatrixWorld(true);
 
-  // Shows pokemon name and img
-  const loadPokemon = model.getObjectByName('Object_6');
-  const box = new THREE.Box3().setFromObject(loadPokemon);
-
-  const [w, h] = box.getSize(new THREE.Vector3()).toArray().sort((a, b) => b - a);
-  screen.scale.setScalar(Math.min(w / 280, h / 240));
-
-  const dir = box.getCenter(new THREE.Vector3()).sub(camera.position).normalize();
-  const hit = new THREE.Raycaster(camera.position, dir).intersectObject(loadPokemon, true)[0];
-  const facing = hit.face.normal.clone().transformDirection(hit.object.matrixWorld).negate();
-
-  screen.position.copy(hit.point).addScaledVector(facing, 0.01);
-  screen.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), facing);
-  screen.rotateY(Math.PI);
-  screen.visible = true;
-
-  // Show pokemon stats
-  const loadStaat = model.getObjectByName('Object_7');
-  const statBox = new THREE.Box3().setFromObject(loadStaat);
-
-  const [w_statScreen, h_statScreen] = statBox.getSize(new THREE.Vector3()).toArray().sort((a, b) => b - a);
-  statScreen.scale.setScalar(Math.min(w_statScreen / 330, h_statScreen / 270));
-
-  const dir_statSceen = statBox.getCenter(new THREE.Vector3()).sub(camera.position).normalize();
-  const hit_statScreen = new THREE.Raycaster(camera.position, dir_statSceen).intersectObject(loadStaat, true)[0];
-  const facing_statScreen = hit_statScreen.face.normal.clone().transformDirection(hit_statScreen.object.matrixWorld).negate();
-
-  statScreen.position.copy(hit_statScreen.point).addScaledVector(facing_statScreen, 0.01);
-  statScreen.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), facing_statScreen);
-  statScreen.rotateY(Math.PI);
-  statScreen.rotateZ(-0.073);
-  statScreen.visible = true;
+  stick(new CSS3DObject(createPokedexScreen()), model.getObjectByName('Object_6'), 280, 240, 0);
+  stick(new CSS3DObject(createStatScreen()), model.getObjectByName('Object_7'), 330, 270, -0.073);
 });
 
+// Draw everything again and again
 function animate() {
   requestAnimationFrame(animate);
   controls.update();
@@ -88,33 +74,27 @@ function animate() {
 }
 animate();
 
-addEventListener('resize', () => {
+// Keep the size right when the window changes
+addEventListener('resize', function () {
   camera.aspect = innerWidth / innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(innerWidth, innerHeight);
   cssRenderer.setSize(innerWidth, innerHeight);
 });
 
-controls.minAzimuthAngle = -Math.PI / 3;
-controls.maxAzimuthAngle = Math.PI / 3;
-controls.maxDistance = 5;
-
-// Background music
+// Background music (browsers only allow sound after a click)
 const listener = new THREE.AudioListener();
 camera.add(listener);
+const backgroundMusic = new THREE.Audio(listener);
 
-const audioLoader = new THREE.AudioLoader();
-const backgroundMusic = new THREE.Audio( listener );
-
-audioLoader.load('../public/Models/assets/littleroot_town.mp3', function(buffer) {
+new THREE.AudioLoader().load('/Models/assets/littleroot_town.mp3', function (buffer) {
   backgroundMusic.setBuffer(buffer);
   backgroundMusic.setLoop(true);
   backgroundMusic.setVolume(0.4);
-  backgroundMusic.play();
 });
 
 document.getElementById('start').addEventListener('click', function () {
   this.remove();
   listener.context.resume();
-  backgroundMusic.play();
+  if (backgroundMusic.buffer) backgroundMusic.play();
 });
