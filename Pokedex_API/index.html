@@ -1,12 +1,25 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pokedex-API</title>
-  </head>
-  <body>
-    <canvas id="exp-canvas"></canvas>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokedex-API</title>
+</head>
+<body>
+  <canvas id="exp-canvas"></canvas>
+
+  <div id="pokemon" class="screen">
+    <form class="search">
+      <input class="name" placeholder="Pikachu" />
+    </form>
+    <img id="imgPokemon" alt="" />
+    <h3 id="namePokemon">Loading...</h3>
+  </div>
+
+  <div id="stats" class="screen statscreen">
+    <div id="statPokemon" class="info">Loading...</div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
 </html>

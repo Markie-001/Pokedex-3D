@@ -1,58 +1,24 @@
-// Pokemon and name
-export function createPokedexScreen() {
-  const el = document.createElement('div');
-  el.className = 'screen';
-  el.innerHTML = `
-    <form class="search">
-      <input class="name" placeholder="Pikachu"/>
-    </form>
-    <div class="info">Loading...</div>
-  `;
+async function loadPokemon(name) {
+  const response = await fetch('https://pokeapi.co/api/v2/pokemon/' + name);
+  const pokemon = await response.json();
 
-  const info = el.querySelector('.info');
-  let currentId = 25;
-
-  async function loadPokemon(query) {
-    info.textContent = 'Loading...';
-    try {
-      const res = await fetch(
-        `https://pokeapi.co/api/v2/pokemon/${String(query).toLowerCase().trim()}`
-      );
-      if (!res.ok) throw new Error('Not found');
-      const p = await res.json();
-      currentId = p.id;
-      window.dispatchEvent(new CustomEvent('pokemon-loaded', { detail: p }));
-      info.innerHTML = `
-        <img src="${p.sprites.front_default}" alt="${p.name}">
-        <h3>#${p.id} ${p.name}</h3>
-      `;
-    } catch {
-      info.textContent = 'Pokémon not found';
-    }
-  }
-
-  el.querySelector('.search').addEventListener('submit', (e) => {
-    e.preventDefault();
-    loadPokemon(el.querySelector('.name').value);
-  });
-
-  loadPokemon(currentId);
-  return el;
+  document.getElementById('imgPokemon').src = pokemon.sprites.front_default;
+  document.getElementById('namePokemon').textContent = pokemon.name;
+  document.getElementById('statPokemon').innerHTML =
+    pokemon.stats.map((s) => '<p>' + s.stat.name + ': ' + s.base_stat + '</p>').join('');
 }
 
-// Stats
-export function createStatScreen() {
-  const el = document.createElement('div');
-  el.className = 'screen statscreen';
-  el.innerHTML = `<div class="info">Loading...</div>`;
-  const info = el.querySelector('.info');
-
-  window.addEventListener('pokemon-loaded', (e) => {
-    const p = e.detail;
-    info.innerHTML = `
-      ${p.stats.map((s) => `<p>${s.stat.name}: ${s.base_stat}</p>`).join('')}
-    `;
+export function createPokedexScreen() {
+  const screen = document.getElementById('pokemon');
+  screen.querySelector('.search').addEventListener('submit', (e) => {
+    e.preventDefault();
+    loadPokemon(screen.querySelector('.name').value);
   });
 
-  return el;
+  loadPokemon('pikachu');
+  return screen;
+}
+
+export function createStatScreen() {
+  return document.getElementById('stats');
 }
