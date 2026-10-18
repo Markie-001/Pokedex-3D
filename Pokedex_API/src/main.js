@@ -68,7 +68,7 @@ new GLTFLoader().load('/Models/pokedex.glb', function (gltf) {
   stick(new CSS3DObject(pokemonDescription()), model.getObjectByName('Object_17'), 500, 250, 0, 0.15, 0.33);
 });
 
-// Draw everything again and again
+// Draw everything
 function animate() {
   requestAnimationFrame(animate);
   controls.update();
