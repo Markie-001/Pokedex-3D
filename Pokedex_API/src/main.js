@@ -32,12 +32,10 @@ document.body.appendChild(cssRenderer.domElement);
 const controls = new OrbitControls(camera, cssRenderer.domElement);
 controls.target.set(0, 0, 0);
 controls.update();
-
 // Pokemon and name
 const screen = new CSS3DObject(createPokedexScreen());
 screen.visible = false;
 scene.add(screen);
-
 // Stat
 const statScreen = new CSS3DObject(createStatScreen());
 statScreen.visible = false;
@@ -48,6 +46,7 @@ new GLTFLoader().load('/Models/pokedex.glb', ({ scene: model }) => {
   model.rotation.y = -Math.PI / 2.3;
   model.updateMatrixWorld(true);
 
+  // Shows pokemon name and img
   const loadPokemon = model.getObjectByName('Object_6');
   const box = new THREE.Box3().setFromObject(loadPokemon);
 
@@ -63,7 +62,7 @@ new GLTFLoader().load('/Models/pokedex.glb', ({ scene: model }) => {
   screen.rotateY(Math.PI);
   screen.visible = true;
 
-  // Stat screen for the Pokemon
+  // Show pokemon stats
   const loadStaat = model.getObjectByName('Object_7');
   const statBox = new THREE.Box3().setFromObject(loadStaat);
 
@@ -108,9 +107,9 @@ const audioLoader = new THREE.AudioLoader();
 const backgroundMusic = new THREE.Audio( listener );
 
 audioLoader.load('../public/Models/assets/littleroot_town.mp3', function(buffer) {
-  backgroundMusic.setBuffer( buffer );
-  backgroundMusic.setLoop( true );
-  backgroundMusic.setVolume( 0.4 );
+  backgroundMusic.setBuffer(buffer);
+  backgroundMusic.setLoop(true);
+  backgroundMusic.setVolume(0.4);
   backgroundMusic.play();
 });
 
