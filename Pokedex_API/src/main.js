@@ -9,10 +9,10 @@ const canvas = document.querySelector('#exp-canvas');
 
 // Scene
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0xffffff);
+scene.background = new THREE.Color(0x274e13);
 // Camera
 const camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
-camera.position.set(0, 0, 3);
+camera.position.set(0, 0, 3.5);
 // Renderer
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 renderer.setSize(innerWidth, innerHeight);
@@ -101,3 +101,11 @@ document.getElementById('start').addEventListener('click', function () {
   listener.context.resume();
   if (backgroundMusic.buffer) backgroundMusic.play();
 });
+
+const groundGeometry = new THREE.CircleGeometry(2, 60);
+groundGeometry.rotateX(-Math.PI / 2);
+const groundMaterial = new THREE.MeshBasicMaterial( { color: 0x7cfc00 } );
+
+const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
+groundMesh.position.y = -1.1;
+scene.add(groundMesh);
