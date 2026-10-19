@@ -85,19 +85,22 @@ input::placeholder {
   inset: 0;
   z-index: 10;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  text-align: center;
   background: #1a1a2e;
   color: white;
-  font-size: 50px;
   cursor: pointer;
 }
 
-#start strong {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: red;
+#start h2 {
+  font-size: 50px;
+}
+
+#start img {
+  width: 40px;
+  margin: 0 5px;
+  margin-top: 20px;
 }
 
 #description {

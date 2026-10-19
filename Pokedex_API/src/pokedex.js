@@ -11,7 +11,7 @@ async function loadPokemon(name) {
     const response = await fetch('https://pokeapi.co/api/v2/pokemon/' + name);
     const pokemon = await response.json();
 
-    document.getElementById('namePokemon').textContent = 'Searching for Pokemon';
+    document.getElementById('namePokemon').textContent = 'Searching for Pokemon...';
     document.getElementById('imgPokemon').removeAttribute('src');
     document.getElementById('statPokemon').innerHTML = '';
     await waitPokemon(10);
