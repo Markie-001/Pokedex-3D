@@ -104,7 +104,7 @@ document.getElementById('start').addEventListener('click', function () {
 
 const groundGeometry = new THREE.CircleGeometry(2, 60);
 groundGeometry.rotateX(-Math.PI / 2);
-const groundMaterial = new THREE.MeshBasicMaterial( { color: 0x7cfc00 } );
+const groundMaterial = new THREE.MeshStandardMaterial({ color: 0x7cfc00 });
 
 const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
 groundMesh.position.y = -1.1;
