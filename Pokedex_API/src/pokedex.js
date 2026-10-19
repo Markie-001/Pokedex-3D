@@ -11,7 +11,7 @@ async function loadPokemon(name) {
     const response = await fetch('https://pokeapi.co/api/v2/pokemon/' + name);
     const pokemon = await response.json();
 
-    const speciesResponse = await fetch(pokemon.species.url);
+    const speciesResponse = await fetch('https://pokeapi.co/api/v2/pokemon-species/' + name);
     const species = await speciesResponse.json();
 
     const english = species.flavor_text_entries.find((e) => e.language.name === 'en');
