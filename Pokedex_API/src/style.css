@@ -88,13 +88,14 @@ input::placeholder {
   justify-content: center;
   align-items: center;
   text-align: center;
-  background: #1a1a2e;
+  background: #fff2cc;
   color: white;
   cursor: pointer;
 }
 
 #start h2 {
   font-size: 50px;
+  color: black;
 }
 
 #start img {
