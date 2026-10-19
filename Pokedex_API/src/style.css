@@ -140,6 +140,7 @@ h2 span {
   width: 245px;
   height: 86px;
   background: #164d7f;
-  font-size: 14px;
+  font-size: 13px;
   font-family: 'Tiny5', sans-serif;
+  overflow: hidden;
 }

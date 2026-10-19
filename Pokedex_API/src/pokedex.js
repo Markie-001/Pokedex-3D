@@ -14,12 +14,8 @@ async function loadPokemon(name) {
     const speciesResponse = await fetch(pokemon.species.url);
     const species = await speciesResponse.json();
 
-    let description = '';
-    for (const entry of species.flavor_text_entries) {
-      if (entry.language.name === 'en') {
-        description = entry.flavor_text.replace(/[\n\f]/g, ' ');
-      }
-    }
+    const english = species.flavor_text_entries.find((e) => e.language.name === 'en');
+    const description = english.flavor_text;
 
     document.getElementById('namePokemon').textContent = 'Searching for Pokemon...';
     document.getElementById('imgPokemon').removeAttribute('src');
