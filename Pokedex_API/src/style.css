@@ -123,6 +123,9 @@ h2 span {
 #start span:nth-child(5) {
   animation-delay: 0.4s;
 }
+#start span:nth-child(6) {
+  animation-delay: 0.5s;
+}
 @keyframes bounce {
   0%, 
   100% {
