@@ -1,6 +1,11 @@
+html {
+  height: 100%;
+}
+
 body {
   margin: 0;
   overflow: hidden;
+  background: url('/Models/assets/pokemon-emerald.gif') center / cover no-repeat;
 }
 
 #exp-canvas {

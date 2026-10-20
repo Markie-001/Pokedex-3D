@@ -9,12 +9,11 @@ const canvas = document.querySelector('#exp-canvas');
 
 // Scene
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x274e13);
 // Camera
 const camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
-camera.position.set(0, 0, 3.5);
+camera.position.set(0, -0.6, 2.2);
 // Renderer
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
 renderer.setSize(innerWidth, innerHeight);
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 // Lights
@@ -35,7 +34,10 @@ document.body.appendChild(cssRenderer.domElement);
 const controls = new OrbitControls(camera, cssRenderer.domElement);
 controls.minAzimuthAngle = -Math.PI / 3;
 controls.maxAzimuthAngle = Math.PI / 3;
-controls.maxDistance = 5;
+controls.minPolarAngle = Math.PI / 3;
+controls.maxPolarAngle = Math.PI / 1.8;
+controls.target.set(0, -0.5, 0);
+controls.maxDistance = 3;
 
 // Sticks an HTML screen onto a part of the model
 function stick(sticker, part, width, height, tilt, moveX = 0, moveY = 0) {
@@ -61,6 +63,7 @@ new GLTFLoader().load('/Models/pokedex.glb', function (gltf) {
   const model = gltf.scene;
   scene.add(model);
   model.rotation.y = -Math.PI / 2.3;
+  model.position.y = -0.6; 
   model.updateMatrixWorld(true);
 
   stick(new CSS3DObject(createPokedexScreen()), model.getObjectByName('Object_6'), 280, 240, 0);
@@ -101,11 +104,3 @@ document.getElementById('start').addEventListener('click', function () {
   listener.context.resume();
   if (backgroundMusic.buffer) backgroundMusic.play();
 });
-
-const groundGeometry = new THREE.CircleGeometry(2, 60);
-groundGeometry.rotateX(-Math.PI / 2);
-const groundMaterial = new THREE.MeshStandardMaterial({ color: 0x7cfc00 });
-
-const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
-groundMesh.position.y = -1.1;
-scene.add(groundMesh);
