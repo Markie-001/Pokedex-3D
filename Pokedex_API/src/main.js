@@ -37,8 +37,8 @@ controls.maxAzimuthAngle = Math.PI / 3;
 controls.minPolarAngle = Math.PI / 3;
 controls.maxPolarAngle = Math.PI / 1.5;
 controls.target.set(0, -0.5, 0);
-controls.minDistance = 1.8;
-controls.maxDistance = 3;
+controls.minDistance = 1;
+controls.maxDistance = 3.5;
 
 // HTML screens: Pokemon img & name, stats and description
 function stick(sticker, part, width, height, tilt, moveX = 0, moveY = 0) {
