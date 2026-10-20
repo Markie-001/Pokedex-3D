@@ -40,7 +40,7 @@ controls.target.set(0, -0.5, 0);
 controls.minDistance = 1.8;
 controls.maxDistance = 3;
 
-// Sticks an HTML screen onto a part of the model
+// HTML screens: Pokemon img & name, stats and description
 function stick(sticker, part, width, height, tilt, moveX = 0, moveY = 0) {
   const box = new THREE.Box3().setFromObject(part);
   const size = box.getSize(new THREE.Vector3()).toArray().sort((a, b) => b - a);
@@ -59,7 +59,7 @@ function stick(sticker, part, width, height, tilt, moveX = 0, moveY = 0) {
   scene.add(sticker);
 }
 
-// Load the model and stick the screens on it
+// Load the model and the screens
 new GLTFLoader().load('/Models/pokedex.glb', function (gltf) {
   const model = gltf.scene;
   scene.add(model);
@@ -81,7 +81,7 @@ function animate() {
 }
 animate();
 
-// Keep the size right when the window changes
+// Keed the size
 addEventListener('resize', function () {
   camera.aspect = innerWidth / innerHeight;
   camera.updateProjectionMatrix();
