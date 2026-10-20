@@ -35,7 +35,7 @@ const controls = new OrbitControls(camera, cssRenderer.domElement);
 controls.minAzimuthAngle = -Math.PI / 3;
 controls.maxAzimuthAngle = Math.PI / 3;
 controls.minPolarAngle = Math.PI / 3;
-controls.maxPolarAngle = Math.PI / 1.8;
+controls.maxPolarAngle = Math.PI / 1.5;
 controls.target.set(0, -0.5, 0);
 controls.minDistance = 1.8;
 controls.maxDistance = 3;
