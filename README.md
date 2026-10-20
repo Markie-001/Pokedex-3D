@@ -61,6 +61,7 @@ Thank you to everyone whose work helped make this project:
 - **3D model:** the Pokédex model by its creator on Sketchfab: https://skfb.ly/p7rIZ. Thank you for sharing it!
 - **Background:** [Pokémon Emerald Horizon Live Wallpaper](https://www.desktophut.com/Pokemon-Emerald-Horizon-Live-Wallpaper) from DesktopHut, which I converted to a GIF.
 - **Colors:** picked with [HTML CSS Color](https://www.htmlcsscolor.com/hex/53DA7B).
+- **IMG:** [Pokemon img here](https://www.flaticon.com/search?word=pokemon) from Flaticon.
 - **Pokémon data:** [PokéAPI](https://pokeapi.co/).
 - **YouTube guides:** thank you to the creators of these tutorials:
   - https://www.youtube.com/watch?v=tdsQwuyS6DQ
