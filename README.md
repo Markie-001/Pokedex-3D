@@ -2,6 +2,8 @@
 
 A 3D Pokédex in the browser, built with [Three.js](https://threejs.org/) and the [PokéAPI](https://pokeapi.co/).
 
+[Open demo](https://pokedex-3-d.vercel.app/) of the website.
+
 Type a Pokémon's name into the Pokédex screen and it looks it up on PokéAPI. The screens on the 3D model then show its sprite, its base stats and its Pokédex entry. Littleroot Town music plays in the background, and an animated Pokémon Emerald landscape fills the scene behind the model.
 
 ## Screenshots
